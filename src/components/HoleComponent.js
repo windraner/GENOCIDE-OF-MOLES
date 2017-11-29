@@ -3,6 +3,8 @@ import { HoleWrapper, StartText, EndText, EndImage } from './style/style';
 
 import { LOSE_CONDITION } from '../constants/constants.js';
 
+import PropTypes from 'prop-types';
+
 export default class HoleComponent extends React.Component {
 	constructor(props) {
 		super();
@@ -46,4 +48,20 @@ export default class HoleComponent extends React.Component {
 		)
 	}
 }
+
+HoleComponent.propTypes = {
+  blocks: PropTypes.object.isRequired,
+  clickOnBlock: PropTypes.func.isRequired,
+  gameStatus: PropTypes.shape({
+  	LvlUp: PropTypes.bool.isRequired,
+  	failed: PropTypes.number.isRequired,
+	gameDifficult: PropTypes.number.isRequired,
+	isPlay: PropTypes.bool.isRequired,
+	onPause: PropTypes.bool.isRequired,
+	points: PropTypes.number.isRequired,
+	startState: PropTypes.bool.isRequired,
+	timer: PropTypes.number.isRequired,
+	win: PropTypes.bool.isRequired
+  })
+};
 

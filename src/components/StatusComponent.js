@@ -3,6 +3,8 @@ import { StatusWrapper, H2, P, LvlUP } from './style/style';
 
 import { GAME_LOOP_SETTINGS, LVL_UP_BUNNER_TIME, WIN_CONDITION } from '../constants/constants.js';
 
+import PropTypes from 'prop-types';
+
 let loop;
 let gameCounter;
 let bunnerCounter;
@@ -83,3 +85,18 @@ export default class StatusComponent extends React.Component {
 		)
 	}
 }
+
+StatusComponent.propTypes = {
+  lvlUpEnd: PropTypes.func.isRequired,
+  status: PropTypes.shape({
+  	LvlUp: PropTypes.bool.isRequired,
+  	failed: PropTypes.number.isRequired,
+	gameDifficult: PropTypes.number.isRequired,
+	isPlay: PropTypes.bool.isRequired,
+	onPause: PropTypes.bool.isRequired,
+	points: PropTypes.number.isRequired,
+	startState: PropTypes.bool.isRequired,
+	timer: PropTypes.number.isRequired,
+	win: PropTypes.bool.isRequired
+  })
+};

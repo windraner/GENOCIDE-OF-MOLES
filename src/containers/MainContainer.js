@@ -6,14 +6,15 @@ import StatusContainer from './StatusContainer';
 
 import { Wrapper, Separator, H1 } from '../components/style/style';
 
+import PropTypes from 'prop-types';
+
 import { 
   PRE_LVL_PAUSE,
   ON_CLICK_PAUSE,
-  GAME_DIFFICULT,
   WIN_CONDITION,
   LOSE_CONDITION,
   GAME_LOOP_SETTINGS,
-  GAME_DIFFICULT_TIME
+  GAME_SETTINGS
 } from '../constants/constants.js';
 
 let loop;
@@ -126,54 +127,14 @@ class MainContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if(this.props.gameStatus.points !== nextProps.gameStatus.points) {
-        switch(nextProps.gameStatus.points) {
-        case GAME_DIFFICULT[0]:
-          this.props.updateTimer(GAME_DIFFICULT_TIME[0]);
-          break;
-
-        case GAME_DIFFICULT[1]:
-          this.props.updateTimer(GAME_DIFFICULT_TIME[1]);
-          break; 
-
-        case GAME_DIFFICULT[2]:
-          this.props.updateTimer(GAME_DIFFICULT_TIME[2]);
-          break;
-
-        case GAME_DIFFICULT[3]:
-          this.props.updateTimer(GAME_DIFFICULT_TIME[3]);
-          break;
-
-        case GAME_DIFFICULT[4]:
-          this.props.updateTimer(GAME_DIFFICULT_TIME[4]);
-          break;
-
-        case GAME_DIFFICULT[5]:
-          this.props.updateTimer(GAME_DIFFICULT_TIME[5]);
-          break;
-
-        case GAME_DIFFICULT[6]:
-          this.props.updateTimer(GAME_DIFFICULT_TIME[6]);
-          break;
-
-        case GAME_DIFFICULT[7]:
-          this.props.updateTimer(GAME_DIFFICULT_TIME[7]);
-          break;
-
-        case GAME_DIFFICULT[8]:
-          this.props.updateTimer(GAME_DIFFICULT_TIME[8]);
-          break;
-
-        case GAME_DIFFICULT[9]:
-          this.props.updateTimer(GAME_DIFFICULT_TIME[9]);
-          break;
-
-        case WIN_CONDITION:
-          this.endGames();
-          break;
-
-        default: 
-          return;
-      }
+        for(let key in GAME_SETTINGS) {
+          if(nextProps.gameStatus.points === +key) {
+            this.props.updateTimer(GAME_SETTINGS[key]);
+          }
+          if(nextProps.gameStatus.points === WIN_CONDITION) {
+            this.endGames();
+          }
+        }
     }
     this.ifFail();
     gameCounter = nextProps.gameStatus.timer;
@@ -226,6 +187,32 @@ class MainContainer extends React.Component {
       );
   }
 }
+
+MainContainer.propTypes = {
+  addFailedPoint: PropTypes.func.isRequired,
+  addPoint: PropTypes.func.isRequired,
+  clickOnFalseBlock: PropTypes.func.isRequired,
+  clickOnTrueBlock: PropTypes.func.isRequired,
+  endGame: PropTypes.func.isRequired,
+  gameFailed: PropTypes.func.isRequired,
+  generateBasicBlock: PropTypes.func.isRequired,
+  generateLvl: PropTypes.func.isRequired,
+  pauseStatus: PropTypes.func.isRequired,
+  startGame: PropTypes.func.isRequired,
+  updateTimer: PropTypes.func.isRequired,
+  blocks: PropTypes.object.isRequired,
+  gameStatus: PropTypes.shape({
+    LvlUp: PropTypes.bool.isRequired,
+    failed: PropTypes.number.isRequired,
+    gameDifficult: PropTypes.number.isRequired,
+    isPlay: PropTypes.bool.isRequired,
+    onPause: PropTypes.bool.isRequired,
+    points: PropTypes.number.isRequired,
+    startState: PropTypes.bool.isRequired,
+    timer: PropTypes.number.isRequired,
+    win: PropTypes.bool.isRequired
+  })
+};
 
 function mapStateToProps(state) {
   return {
